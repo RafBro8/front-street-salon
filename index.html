@@ -23,15 +23,31 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@300;400;500;600&display=swap">
 <style>
+  /* ---------- tokens ---------- */
   :root {
     color-scheme: only light;
     --cream: #F5F2EA;
+    --cream-dim: #ECE9DD;
     --ink: #26322A;
     --deep: #2F3F34;
+    --deep-soft: #3B4D40;
     --body: #55614F;
+    --quiet: #46544A;
     --brass: #C6AC72;
+    /* The darker brass is only ever used for small text and the focus ring, so
+       it is set to clear 4.5:1 on cream as well as on white. */
+    --brass-deep: #7D662D;
+    --brass-pale: #D8CFA8;
+    --on-deep: #C8D2C6;
+    --on-deep-strong: #F7F5EC;
     --line: #E2DED0;
+    --line-soft: #E5E1D3;
+    --gutter: clamp(20px, 5vw, 56px);
+    --page: 1180px;
+    --half: 590px;
   }
+
+  /* ---------- base ---------- */
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -42,113 +58,258 @@
   }
   a { color: #3A5141; }
   a:hover { color: #253429; }
-  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 56px); }
-  .serif { font-family: Marcellus, Georgia, serif; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
-  /* One treatment across every photograph. The set is well matched but not a
-     single shoot, and this is what stops it reading as assorted stock. */
-  .shot {
-    display: block; width: 100%; height: 100%;
-    object-fit: cover;
-    filter: saturate(0.88) sepia(0.06) contrast(1.02);
+  img { display: block; max-width: 100%; }
+  h1, h2, h3 { font-family: Marcellus, Georgia, serif; font-weight: 400; margin: 0; }
+  p { margin: 0; }
+  dl, dd { margin: 0; }
+
+  .wrap { max-width: var(--page); margin: 0 auto; padding-inline: var(--gutter); }
+  .section { padding-block: clamp(48px, 6vw, 86px); }
+  .section-tight { padding-block: clamp(40px, 5vw, 70px); }
+
+  .eyebrow {
+    font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--brass-deep);
   }
+  .eyebrow-light { color: var(--brass); }
+  .lede { font-size: 17px; line-height: 1.65; color: var(--body); }
+  .h-xl { font-size: clamp(40px, 5.4vw, 66px); line-height: 1.06; }
+  .h-lg { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12; }
+  .h-md { font-size: clamp(27px, 3vw, 38px); line-height: 1.14; }
+  .h-sm { font-size: 23px; line-height: 1.2; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-block; text-decoration: none; border-radius: 999px;
+    font-size: 17px; padding: 16px 34px; border: 1px solid transparent;
+  }
+  .btn-brass { background: var(--brass); color: #1E2A22; font-weight: 600; }
+  .btn-brass:hover { background: #BBA066; color: #1E2A22; }
+  .btn-dark { background: var(--ink); color: var(--cream); }
+  .btn-dark:hover { background: #1C2620; color: var(--cream); }
+  .btn-line { border-color: #B4BCAE; color: var(--ink); }
+  .btn-line:hover { background: #E7E3D4; color: var(--ink); }
+  .btn-line-light { border-color: #6B7D6F; color: #EFEDE3; }
+  .btn-line-light:hover { background: var(--deep-soft); color: #EFEDE3; }
+  .btn-sm { padding: 13px 26px; font-size: 15px; }
+  .btn-lg { padding: 18px 42px; font-size: 18px; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+
+  /* ---------- photographs ---------- */
+  /* One treatment across every image. The set is well matched but not a single
+     shoot, and this is what stops it reading as assorted stock. */
+  .shot { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.88) sepia(0.06) contrast(1.02); }
   .frame { overflow: hidden; position: relative; background: #E6E2D8; }
-  .frame::after {
-    content: ""; position: absolute; inset: 0;
-    background: #3E5142; opacity: 0.07; pointer-events: none;
-  }
-  .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .gallery .frame { aspect-ratio: 1 / 1; border-radius: 10px; }
-  @media (max-width: 860px) {
-    .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  .row { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; }
-  .btn { display: inline-block; text-decoration: none; border-radius: 999px; }
-  .card { background: #FFF; border: 1px solid #E5E1D3; border-radius: 14px; overflow: hidden; }
-  .demo-flag {
-    background: var(--deep); color: #C8D2C6; text-align: center;
-    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; margin: 0;
-  }
-  @media (max-width: 860px) {
-    .grid-3 { grid-template-columns: 1fr; }
+  .frame::after { content: ""; position: absolute; inset: 0; background: #3E5142; opacity: 0.07; pointer-events: none; }
+
+  /* ---------- demo bar ---------- */
+  .demo-bar {
+    background: var(--deep); color: var(--on-deep); text-align: center;
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px;
   }
 
-  /* Booking and gift card panels. Nothing here talks to a server: the demo
-     simulates the flow a real salon would run through Vagaro or Boulevard. */
-  .sheet[hidden] { display: none; }
-  .sheet {
-    position: fixed; inset: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: center;
-    padding: clamp(0px, 4vw, 32px);
+  /* ---------- header ---------- */
+  .site-head { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding-block: 24px; }
+  .brand { flex: 0 0 auto; display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .brand span { font-family: Marcellus, Georgia, serif; font-size: 22px; color: var(--ink); }
+  .nav { flex: 999 1 auto; display: flex; flex-wrap: wrap; gap: clamp(16px, 2.2vw, 30px); font-size: 15px; }
+  .nav a { color: var(--quiet); text-decoration: none; }
+  .head-actions { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .head-tel { font-size: 15px; color: var(--quiet); text-decoration: none; }
+
+  /* ---------- hero: breaks the container on the right ---------- */
+  .hero { background: var(--deep); color: #EFEDE3; }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 44%);
+    gap: clamp(28px, 4vw, 72px);
+    align-items: center;
+    /* Left column lines up with the page container; the right runs off the edge. */
+    padding-left: max(var(--gutter), calc(50% - var(--half) + var(--gutter)));
+    padding-right: 0;
+    padding-block: clamp(48px, 6vw, 96px);
   }
+  .hero-copy { max-width: 34em; }
+  .hero h1 { color: var(--on-deep-strong); margin-block: 22px 26px; }
+  .hero-sub { font-size: 19px; line-height: 1.68; color: var(--on-deep); margin-bottom: 34px; }
+  .hero-art { height: clamp(360px, 52vw, 560px); border-radius: 260px 0 0 260px; overflow: hidden; position: relative; }
+  .hero-art::after { content: ""; position: absolute; inset: 0; background: #3E5142; opacity: 0.07; }
+
+  /* ---------- trust strip ---------- */
+  .strip {
+    display: flex; flex-wrap: wrap; gap: clamp(20px, 4vw, 52px);
+    font-size: 15px; color: var(--quiet);
+    padding-block: clamp(28px, 3vw, 44px); border-bottom: 1px solid var(--line);
+  }
+
+  /* ---------- section heads ---------- */
+  .head-split { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; margin-bottom: 40px; }
+  .head-split h2 { flex: 999 1 300px; }
+  .head-split p { flex: 1 1 260px; font-size: 16px; line-height: 1.6; color: var(--body); }
+
+  /* ---------- service cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  .card { background: #FFF; border: 1px solid var(--line-soft); border-radius: 14px; overflow: hidden; }
+  .card .frame { height: 210px; }
+  .card-body { padding: 26px; }
+  .card-body h3 { margin-bottom: 10px; }
+  .card-body p { font-size: 16px; line-height: 1.6; color: var(--body); margin-bottom: 16px; }
+  .card-from { font-size: 16px; color: var(--ink); }
+
+  /* ---------- the editorial moment ---------- */
+  .quote { padding-block: clamp(56px, 8vw, 120px); text-align: center; }
+  .quote blockquote {
+    margin: 0 auto; max-width: 18ch;
+    font-family: Marcellus, Georgia, serif;
+    font-size: clamp(34px, 5.6vw, 72px); line-height: 1.1; color: var(--ink);
+  }
+  .quote .after { margin-top: clamp(24px, 3vw, 36px); font-size: 17px; line-height: 1.6; color: var(--body); }
+  .quote .after strong { font-weight: 400; color: var(--ink); }
+
+  /* ---------- hair: asymmetric, overlapping ---------- */
+  .hair-inner {
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center;
+    /* One source of truth: the card is pulled left by this, and the panel
+       reserves the same space so its text never runs underneath. */
+    --overlap: clamp(48px, 6vw, 96px);
+    --panel-pad: clamp(32px, 4vw, 60px);
+  }
+  .hair-panel {
+    grid-column: 1; grid-row: 1; z-index: 0;
+    background: var(--deep); color: var(--on-deep);
+    padding: var(--panel-pad);
+    padding-right: calc(var(--panel-pad) + var(--overlap));
+    border-radius: 16px;
+  }
+  .hair-panel h2 { color: var(--on-deep-strong); margin-bottom: 16px; }
+  .hair-panel p { font-size: 17px; line-height: 1.65; margin-bottom: 22px; }
+  .hair-panel a { color: var(--brass-pale); font-size: 17px; }
+  .hair-card {
+    grid-column: 2; grid-row: 1; z-index: 1;
+    margin-left: calc(-1 * var(--overlap));
+    background: #FFF; border: 1px solid var(--line-soft); border-radius: 14px;
+    padding: clamp(26px, 3vw, 40px);
+    box-shadow: 0 22px 48px rgba(28, 38, 30, 0.14);
+  }
+
+  /* ---------- price lists ---------- */
+  .price-row { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
+  .price-row:last-child { border-bottom: 0; }
+  .price-row dt { color: var(--quiet); }
+  .price-row dd { color: var(--ink); white-space: nowrap; }
+
+  /* ---------- packages ---------- */
+  .pkg { background: #FFF; border: 1px solid var(--line-soft); border-radius: 14px; padding: 30px; }
+  .pkg h3 { margin-bottom: 8px; }
+  .pkg .dur { font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--brass-deep); margin-bottom: 18px; }
+  .pkg p.copy { font-size: 16px; line-height: 1.65; color: var(--body); margin-bottom: 20px; }
+  .pkg .amount { font-size: 20px; color: var(--ink); }
+  .pkg-feature { background: var(--deep); border-color: var(--deep); color: var(--on-deep); }
+  .pkg-feature h3, .pkg-feature .amount { color: var(--on-deep-strong); }
+  .pkg-feature .dur { color: var(--brass); }
+  .pkg-feature p.copy { color: var(--on-deep); }
+
+  /* ---------- gallery: full bleed ---------- */
+  .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .gallery .frame { aspect-ratio: 4 / 5; }
+
+  /* ---------- gift band ---------- */
+  .gift { background: var(--brass); }
+  .gift-inner { display: flex; flex-wrap: wrap; gap: clamp(26px, 4vw, 60px); align-items: center; padding-block: clamp(42px, 5vw, 72px); }
+  .gift-inner > div:first-child { flex: 999 1 380px; min-width: 0; }
+  .gift h2 { color: #22281A; margin-bottom: 14px; }
+  .gift p { font-size: 17px; line-height: 1.65; color: #342F1E; max-width: 32em; }
+  .gift .btn-row { flex: 1 1 280px; min-width: 0; }
+  .gift .btn-line { border-color: #6E5E33; color: #22281A; }
+  .gift .btn-line:hover { background: #BBA066; }
+
+  /* ---------- closing call to action ---------- */
+  .cta { text-align: center; }
+  .cta p { font-size: 19px; line-height: 1.6; color: var(--body); max-width: 30em; margin: 18px auto 32px; }
+  .cta .btn-row { justify-content: center; }
+
+  /* ---------- footer ---------- */
+  .site-foot { background: var(--deep); color: var(--on-deep); }
+  .foot-cols { display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 56px); padding-block: clamp(40px, 5vw, 64px); font-size: 16px; }
+  .foot-cols > div { flex: 1 1 200px; }
+  .foot-cols > div:first-child { flex: 1 1 240px; }
+  .foot-cols h3 { font-size: 21px; color: var(--on-deep-strong); margin-bottom: 12px; }
+  .foot-label { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9DAE9F; margin-bottom: 12px; }
+  .foot-cols p { line-height: 1.75; }
+  .foot-cols a { color: var(--brass-pale); }
+  .foot-credit { border-top: 1px solid #3E5245; }
+  .foot-credit div {
+    display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between;
+    padding-block: 22px; font-size: 15px; color: #9DAE9F;
+  }
+  .foot-credit a { color: var(--brass-pale); }
+
+  /* ---------- booking and gift card panels ---------- */
+  /* Nothing here talks to a server: the demo simulates the flow a real salon
+     would run through Vagaro, Boulevard or Square. */
+  .sheet[hidden] { display: none; }
+  .sheet { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: clamp(0px, 4vw, 32px); }
   .sheet-backdrop { position: absolute; inset: 0; background: rgba(26, 36, 29, 0.55); }
   .sheet-panel {
-    position: relative; z-index: 1;
-    width: 100%; max-width: 560px; max-height: 100%;
-    display: flex; flex-direction: column;
-    background: var(--cream); border-radius: 16px; overflow: hidden;
-    box-shadow: 0 24px 60px rgba(20, 28, 22, 0.35);
+    position: relative; z-index: 1; width: 100%; max-width: 560px; max-height: 100%;
+    display: flex; flex-direction: column; background: var(--cream);
+    border-radius: 16px; overflow: hidden; box-shadow: 0 24px 60px rgba(20, 28, 22, 0.35);
   }
-  .sheet-head {
-    display: flex; align-items: flex-start; gap: 16px;
-    padding: 22px 24px; background: var(--deep); color: #F7F5EC;
-  }
-  .sheet-head h2 { margin: 0; font-family: Marcellus, Georgia, serif; font-size: 23px; }
-  .sheet-head p { margin: 4px 0 0; font-size: 15px; color: #C8D2C6; }
+  .sheet-head { display: flex; align-items: flex-start; gap: 16px; padding: 22px 24px; background: var(--deep); color: var(--on-deep-strong); }
+  .sheet-head h2 { font-size: 23px; }
+  .sheet-head p { margin-top: 4px; font-size: 15px; color: var(--on-deep); }
   .sheet-close {
-    margin-left: auto; flex: 0 0 auto;
-    width: 44px; height: 44px; border-radius: 999px;
+    margin-left: auto; flex: 0 0 auto; width: 44px; height: 44px; border-radius: 999px;
     background: transparent; border: 1px solid #5E7264; color: #EFEDE3;
     font-size: 20px; line-height: 1; cursor: pointer;
   }
-  .sheet-close:hover { background: #3B4D40; }
+  .sheet-close:hover { background: var(--deep-soft); }
   .sheet-body { padding: 24px; overflow-y: auto; }
-  .sheet-foot {
-    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
-    padding: 16px 24px; border-top: 1px solid var(--line); background: #EFECE1;
-  }
+  .sheet-body > p { font-size: 17px; color: var(--body); margin-bottom: 16px; }
+  .sheet-foot { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 16px 24px; border-top: 1px solid var(--line); background: #EFECE1; }
   .steps { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; padding: 0; list-style: none; }
   .steps li { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8D9589; }
   .steps li[aria-current="step"] { color: var(--ink); font-weight: 600; }
   .steps li + li::before { content: "/"; margin-right: 8px; color: #BFC4B8; }
   .opt {
-    display: flex; width: 100%; gap: 14px; align-items: baseline;
-    margin-bottom: 10px; padding: 16px 18px; text-align: left;
-    background: #FFF; border: 1px solid #E0DCCE; border-radius: 10px;
-    font-family: inherit; font-size: 17px; color: var(--ink); cursor: pointer;
+    display: flex; width: 100%; gap: 14px; align-items: baseline; margin-bottom: 10px;
+    padding: 16px 18px; text-align: left; background: #FFF; border: 1px solid #E0DCCE;
+    border-radius: 10px; font-family: inherit; font-size: 17px; color: var(--ink); cursor: pointer;
   }
   .opt:hover { border-color: #A9B3A3; }
-  .opt[aria-pressed="true"] { border-color: #8C7434; background: #F6EFDC; box-shadow: inset 0 0 0 1px #8C7434; }
   .opt .meta { margin-left: auto; color: #6A7366; font-size: 16px; white-space: nowrap; }
   .opt .sub { display: block; margin-top: 4px; font-size: 15px; color: #6A7366; }
   .slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-  .slot {
-    padding: 14px 6px; text-align: center;
-    background: #FFF; border: 1px solid #E0DCCE; border-radius: 8px;
-    font-family: inherit; font-size: 16px; color: var(--ink); cursor: pointer;
-  }
+  .slot { padding: 14px 6px; text-align: center; background: #FFF; border: 1px solid #E0DCCE; border-radius: 8px; font-family: inherit; font-size: 16px; color: var(--ink); cursor: pointer; }
   .slot:hover:not(:disabled) { border-color: #A9B3A3; }
   .slot:disabled { color: #AEB3A8; background: #EDEADF; cursor: not-allowed; text-decoration: line-through; }
-  .sheet :focus-visible { outline: 3px solid #8C7434; outline-offset: 2px; }
-  .receipt { margin: 0 0 20px; font-size: 17px; }
+  .sheet :focus-visible { outline: 3px solid var(--brass-deep); outline-offset: 2px; }
+  .receipt { margin-bottom: 20px; font-size: 17px; }
   .receipt div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
   .receipt dt { color: var(--body); }
-  .receipt dd { margin: 0; color: var(--ink); text-align: right; }
-  .demo-note {
-    margin: 0; padding: 16px 18px; border-radius: 10px;
-    background: #E7E3D3; border: 1px solid #D5CFB9;
-    font-size: 16px; line-height: 1.6; color: #4C5247;
-  }
-  .ghost {
-    padding: 13px 20px; background: transparent; border: 1px solid #B4BCAE;
-    border-radius: 999px; font-family: inherit; font-size: 16px; color: var(--ink); cursor: pointer;
-  }
+  .receipt dd { color: var(--ink); text-align: right; }
+  .demo-note { padding: 16px 18px; border-radius: 10px; background: #E7E3D3; border: 1px solid #D5CFB9; font-size: 16px; line-height: 1.6; color: #4C5247; }
+  .field { width: 100%; padding: 14px 16px; font-size: 16px; font-family: inherit; border: 1px solid #D7D2C2; border-radius: 8px; background: #FFF; color: var(--ink); }
+  .field-label { display: block; margin-bottom: 8px; font-size: 15px; color: var(--body); }
+  .ghost { padding: 13px 20px; background: transparent; border: 1px solid #B4BCAE; border-radius: 999px; font-family: inherit; font-size: 16px; color: var(--ink); cursor: pointer; }
   .ghost:hover { background: #E4E0D2; }
-  .primary {
-    padding: 14px 28px; background: var(--brass); border: none; border-radius: 999px;
-    font-family: inherit; font-size: 16px; font-weight: 600; color: #1E2A22; cursor: pointer;
-  }
+  .primary { padding: 14px 28px; background: var(--brass); border: none; border-radius: 999px; font-family: inherit; font-size: 16px; font-weight: 600; color: #1E2A22; cursor: pointer; }
   .primary:hover { background: #BBA066; }
+
+  /* ---------- narrow screens ---------- */
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; }
+    .hero-inner {
+      grid-template-columns: 1fr;
+      padding-right: var(--gutter);
+      padding-left: var(--gutter);
+    }
+    .hero-art { border-radius: 200px 200px 12px 12px; height: clamp(320px, 70vw, 440px); }
+    .hair-inner { grid-template-columns: 1fr; --overlap: 0px; }
+    .hair-panel, .hair-card { grid-column: 1; grid-row: auto; }
+    .hair-card { margin-left: 0; margin-top: -28px; width: calc(100% - 28px); margin-inline: auto; }
+    .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  }
   @media (max-width: 560px) {
     .sheet { padding: 0; align-items: flex-end; }
     .sheet-panel { max-width: none; border-radius: 16px 16px 0 0; max-height: 92vh; }
@@ -158,149 +319,145 @@
 </head>
 <body>
 
-<p class="demo-flag">Demo site &middot; Front Street Salon &amp; Spa is not a real business</p>
+<p class="demo-bar">Demo site &middot; Front Street Salon &amp; Spa is not a real business</p>
 
 <header>
-  <div class="wrap" style="padding-block: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
-    <a href="#top" style="flex: 0 0 auto; display: flex; align-items: center; gap: 11px; text-decoration: none">
+  <div class="wrap site-head">
+    <a href="#top" class="brand">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4A5D4E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 21c0-6 3-11 8-13-1 7-4 11-8 13z"></path>
         <path d="M12 21c0-5-2.5-9-7-10.5C5.6 16 8.6 19.6 12 21z"></path>
         <path d="M12 21v-4"></path>
       </svg>
-      <span class="serif" style="font-size: 22px; color: var(--ink)">Front Street</span>
+      <span>Front Street</span>
     </a>
-    <nav style="flex: 999 1 auto; display: flex; flex-wrap: wrap; gap: clamp(16px, 2.2vw, 30px); font-size: 15px">
-      <a href="#spa" style="color: #46544A; text-decoration: none">Spa</a>
-      <a href="#services" style="color: #46544A; text-decoration: none">Hair</a>
-      <a href="#packages" style="color: #46544A; text-decoration: none">Packages</a>
-      <a href="#gift" style="color: #46544A; text-decoration: none">Gift cards</a>
-      <a href="#visit" style="color: #46544A; text-decoration: none">Visit</a>
+    <nav class="nav">
+      <a href="#spa">Spa</a>
+      <a href="#hair">Hair</a>
+      <a href="#packages">Packages</a>
+      <a href="#gift">Gift cards</a>
+      <a href="#visit">Visit</a>
     </nav>
-    <div style="flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
-      <a href="tel:+17085550142" style="font-size: 15px; color: #46544A; text-decoration: none">(708) 555-0142</a>
-      <a href="#book" data-open="book" class="btn" style="padding: 13px 26px; background: var(--brass); color: #1E2A22; font-size: 15px; font-weight: 600">Book</a>
+    <div class="head-actions">
+      <a href="tel:+17085550142" class="head-tel">(708) 555-0142</a>
+      <a href="#book" data-open="book" class="btn btn-brass btn-sm">Book</a>
     </div>
   </div>
 </header>
 
-<section id="top" style="background: var(--deep); color: #EFEDE3">
-  <div class="wrap" style="padding-block: clamp(48px, 6vw, 96px)">
-    <div style="display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 64px); align-items: center">
-      <div style="flex: 999 1 420px; min-width: 0">
-        <p style="margin: 0 0 22px; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #BFA468">Salon and day spa &middot; Mokena</p>
-        <h1 class="serif" style="margin: 0 0 26px; font-size: clamp(40px, 5.4vw, 66px); line-height: 1.06; color: #F7F5EC">Ninety minutes that belong to you.</h1>
-        <p style="margin: 0 0 34px; font-size: 19px; line-height: 1.68; color: #C8D2C6; max-width: 32em">Massage, facials, colour and care, in a room that stays quiet. Park on Front Street, come in, put the phone down. We will tell you when the time is up.</p>
-        <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center">
-          <a href="#book" data-open="book" class="btn" style="padding: 17px 36px; background: var(--brass); color: #1E2A22; font-size: 17px; font-weight: 600">Book a treatment</a>
-          <a href="#packages" class="btn" style="padding: 16px 34px; border: 1px solid #6B7D6F; color: #EFEDE3; font-size: 17px">See packages</a>
-        </div>
+<section id="top" class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow eyebrow-light">Salon and day spa &middot; Mokena</p>
+      <h1 class="h-xl">Ninety minutes that belong to you.</h1>
+      <p class="hero-sub">Massage, facials, colour and care, in a room that stays quiet. Park on Front Street, come in, put the phone down. We will tell you when the time is up.</p>
+      <div class="btn-row">
+        <a href="#book" data-open="book" class="btn btn-brass">Book a treatment</a>
+        <a href="#packages" class="btn btn-line-light">See packages</a>
       </div>
-      <div style="flex: 1 1 340px; min-width: 0">
-        <div class="frame" style="height: 520px; border-radius: 240px 240px 10px 10px">
-          <img class="shot" src="img/hero-room.jpg" width="900" height="1150" alt="A quiet treatment room with a linen-covered bed beside a window.">
-        </div>
-      </div>
+    </div>
+    <div class="hero-art">
+      <img class="shot" src="img/hero-room.jpg" width="900" height="1150" alt="A quiet treatment room with a linen-covered bed beside a window.">
     </div>
   </div>
 </section>
 
-<section class="wrap" style="padding-block: clamp(28px, 3vw, 44px); display: flex; flex-wrap: wrap; gap: clamp(20px, 4vw, 52px); font-size: 15px; color: #46544A; border-bottom: 1px solid var(--line)">
-  <span>Quiet rooms, no walk-in traffic</span>
-  <span>Licensed massage therapists</span>
-  <span>Couples and group bookings</span>
-  <span>Gift cards by email, same day</span>
-</section>
+<div class="wrap">
+  <div class="strip">
+    <span>Quiet rooms, no walk-in traffic</span>
+    <span>Licensed massage therapists</span>
+    <span>Couples and group bookings</span>
+    <span>Gift cards by email, same day</span>
+  </div>
+</div>
 
-<section id="spa" class="wrap" style="padding-block: clamp(48px, 6vw, 86px)">
-  <h2 class="serif" style="margin: 0 0 14px; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12">Start with the quiet</h2>
-  <p style="margin: 0 0 44px; font-size: 17px; line-height: 1.65; color: var(--body); max-width: 36em">Three rooms, each with its own door. Nothing is shared, nothing is rushed, and the treatment you booked is the treatment you get.</p>
+<section id="spa" class="wrap section">
+  <h2 class="h-lg">Start with the quiet</h2>
+  <p class="lede" style="max-width: 36em; margin-block: 14px 44px">Three rooms, each with its own door. Nothing is shared, nothing is rushed, and the treatment you booked is the treatment you get.</p>
 
-  <div class="grid-3">
+  <div class="cards">
     <article class="card">
-      <div class="frame" style="height: 210px">
-        <img class="shot" src="img/svc-massage.jpg" width="800" height="560" loading="lazy" alt="A therapist's hands working across a client's shoulder.">
-      </div>
-      <div style="padding: 26px">
-        <h3 class="serif" style="margin: 0 0 10px; font-size: 22px">Massage</h3>
-        <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--body)">Swedish, deep tissue or prenatal. Thirty, sixty or ninety minutes.</p>
-        <p style="margin: 0; font-size: 16px; color: var(--ink)">From $65</p>
+      <div class="frame"><img class="shot" src="img/svc-massage.jpg" width="800" height="560" loading="lazy" alt="A therapist's hands working across a client's shoulder."></div>
+      <div class="card-body">
+        <h3 class="h-sm">Massage</h3>
+        <p>Swedish, deep tissue or prenatal. Thirty, sixty or ninety minutes.</p>
+        <p class="card-from">From $65</p>
       </div>
     </article>
     <article class="card">
-      <div class="frame" style="height: 210px">
-        <img class="shot" src="img/svc-facial.jpg" width="800" height="560" loading="lazy" alt="A clay mask being brushed on during a facial, towels tucked around.">
-      </div>
-      <div style="padding: 26px">
-        <h3 class="serif" style="margin: 0 0 10px; font-size: 22px">Facials</h3>
-        <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--body)">Signature, hydrating or clarifying, after a skin consultation.</p>
-        <p style="margin: 0; font-size: 16px; color: var(--ink)">From $110</p>
+      <div class="frame"><img class="shot" src="img/svc-facial.jpg" width="800" height="560" loading="lazy" alt="A clay mask being brushed on during a facial, towels tucked around."></div>
+      <div class="card-body">
+        <h3 class="h-sm">Facials</h3>
+        <p>Signature, hydrating or clarifying, after a skin consultation.</p>
+        <p class="card-from">From $110</p>
       </div>
     </article>
     <article class="card">
-      <div class="frame" style="height: 210px">
-        <img class="shot" src="img/svc-nails.jpg" width="800" height="560" loading="lazy" alt="A manicurist painting a client's nails.">
-      </div>
-      <div style="padding: 26px">
-        <h3 class="serif" style="margin: 0 0 10px; font-size: 22px">Hands and feet</h3>
-        <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--body)">Gel, classic and spa treatments, in the quiet room or the salon.</p>
-        <p style="margin: 0; font-size: 16px; color: var(--ink)">From $38</p>
+      <div class="frame"><img class="shot" src="img/svc-nails.jpg" width="800" height="560" loading="lazy" alt="A manicurist painting a client's nails."></div>
+      <div class="card-body">
+        <h3 class="h-sm">Hands and feet</h3>
+        <p>Gel, classic and spa treatments, in the quiet room or the salon.</p>
+        <p class="card-from">From $38</p>
       </div>
     </article>
   </div>
 </section>
 
-<section id="services" style="background: #ECE9DD">
-  <div class="wrap" style="padding-block: clamp(44px, 5vw, 78px); display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 60px)">
-    <div style="flex: 1 1 300px; min-width: 0">
-      <h2 class="serif" style="margin: 0 0 16px; font-size: clamp(27px, 3vw, 38px); line-height: 1.14">Hair, in the same calm</h2>
-      <p style="margin: 0 0 22px; font-size: 17px; line-height: 1.65; color: var(--body)">Colour and cutting share the building but not the noise. Every colour starts with a strand test and a written quote, so the number at the desk is the number you were told.</p>
-      <a href="#book" data-open="book" data-service="colour" style="font-size: 17px">Book with a colourist</a>
+<section class="wrap quote">
+  <blockquote>Nobody here works on commission.</blockquote>
+  <p class="after">If a treatment is wrong for you we will say so, and book you the cheaper one.<br><strong>How we have run the place since 2009.</strong></p>
+</section>
+
+<section id="hair" class="wrap section-tight">
+  <div class="hair-inner">
+    <div class="hair-panel">
+      <h2 class="h-md">Hair, in the same calm</h2>
+      <p>Colour and cutting share the building but not the noise. Every colour starts with a strand test and a written quote, so the number at the desk is the number you were told.</p>
+      <a href="#book" data-open="book" data-service="colour">Book with a colourist</a>
     </div>
-    <div style="flex: 999 1 400px; min-width: 0">
-      <dl style="margin: 0; font-size: 17px; color: #46544A">
-        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Cut and finish</dt><dd style="margin: 0; color: var(--ink)">from $65</dd></div>
-        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Root touch-up</dt><dd style="margin: 0; color: var(--ink)">from $85</dd></div>
-        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Partial highlight</dt><dd style="margin: 0; color: var(--ink)">from $130</dd></div>
-        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Balayage</dt><dd style="margin: 0; color: var(--ink)">from $185</dd></div>
-        <div class="row"><dt>Blowout</dt><dd style="margin: 0; color: var(--ink)">from $45</dd></div>
+    <div class="hair-card">
+      <dl>
+        <div class="price-row"><dt>Cut and finish</dt><dd>from $65</dd></div>
+        <div class="price-row"><dt>Root touch-up</dt><dd>from $85</dd></div>
+        <div class="price-row"><dt>Partial highlight</dt><dd>from $130</dd></div>
+        <div class="price-row"><dt>Balayage</dt><dd>from $185</dd></div>
+        <div class="price-row"><dt>Blowout</dt><dd>from $45</dd></div>
       </dl>
     </div>
   </div>
 </section>
 
-<section id="packages" class="wrap" style="padding-block: clamp(48px, 6vw, 86px)">
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; margin-bottom: 40px">
-    <h2 class="serif" style="margin: 0; flex: 999 1 300px; font-size: clamp(30px, 3.4vw, 42px); line-height: 1.12">Half days and whole afternoons</h2>
-    <p style="margin: 0; flex: 1 1 260px; font-size: 16px; line-height: 1.6; color: var(--body)">Booked as one appointment, so nobody waits in the hallway between treatments.</p>
+<section id="packages" class="wrap section">
+  <div class="head-split">
+    <h2 class="h-lg">Half days and whole afternoons</h2>
+    <p>Booked as one appointment, so nobody waits in the hallway between treatments.</p>
   </div>
-
-  <div class="grid-3">
-    <article style="background: #FFF; border: 1px solid #E5E1D3; border-radius: 14px; padding: 30px">
-      <h3 class="serif" style="margin: 0 0 8px; font-size: 23px">The short one</h3>
-      <p style="margin: 0 0 18px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #7D6E42">Two hours</p>
-      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: var(--body)">Sixty-minute massage, express facial, and tea in the quiet room for as long as you like.</p>
-      <p style="margin: 0; font-size: 20px; color: var(--ink)">$185</p>
+  <div class="cards">
+    <article class="pkg">
+      <h3 class="h-sm">The short one</h3>
+      <p class="dur">Two hours</p>
+      <p class="copy">Sixty-minute massage, express facial, and tea in the quiet room for as long as you like.</p>
+      <p class="amount">$185</p>
     </article>
-    <article style="background: var(--deep); color: #EFEDE3; border: 1px solid var(--deep); border-radius: 14px; padding: 30px">
-      <h3 class="serif" style="margin: 0 0 8px; font-size: 23px; color: #F7F5EC">The afternoon</h3>
-      <p style="margin: 0 0 18px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #C6AC72">Four hours</p>
-      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: #C8D2C6">Massage, signature facial, gel manicure and a blowout to finish. Lunch included.</p>
-      <p style="margin: 0; font-size: 20px; color: #F7F5EC">$345</p>
+    <article class="pkg pkg-feature">
+      <h3 class="h-sm">The afternoon</h3>
+      <p class="dur">Four hours</p>
+      <p class="copy">Massage, signature facial, gel manicure and a blowout to finish. Lunch included.</p>
+      <p class="amount">$345</p>
     </article>
-    <article style="background: #FFF; border: 1px solid #E5E1D3; border-radius: 14px; padding: 30px">
-      <h3 class="serif" style="margin: 0 0 8px; font-size: 23px">For two</h3>
-      <p style="margin: 0 0 18px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #7D6E42">Two hours, side by side</p>
-      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: var(--body)">Two sixty-minute massages in the double room, then facials. Popular for birthdays and showers.</p>
-      <p style="margin: 0; font-size: 20px; color: var(--ink)">$330</p>
+    <article class="pkg">
+      <h3 class="h-sm">For two</h3>
+      <p class="dur">Two hours, side by side</p>
+      <p class="copy">Two sixty-minute massages in the double room, then facials. Popular for birthdays and showers.</p>
+      <p class="amount">$330</p>
     </article>
   </div>
 </section>
 
-<section class="wrap" style="padding-bottom: clamp(48px, 6vw, 86px)">
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; margin-bottom: 28px">
-    <h2 class="serif" style="margin: 0; flex: 999 1 300px; font-size: clamp(27px, 3vw, 38px); line-height: 1.14">Inside Front Street</h2>
-    <p style="margin: 0; flex: 1 1 260px; font-size: 16px; line-height: 1.6; color: var(--body)">Two floors, three treatment rooms, and more plants than anybody planned for.</p>
+<section class="section-tight">
+  <div class="wrap head-split">
+    <h2 class="h-md">Inside Front Street</h2>
+    <p>Two floors, three treatment rooms, and more plants than anybody planned for.</p>
   </div>
   <div class="gallery">
     <div class="frame"><img class="shot" src="img/g-styling.jpg" width="700" height="700" loading="lazy" alt="A stylist finishing a blow-dry in a bright, plant-filled salon."></div>
@@ -310,53 +467,51 @@
   </div>
 </section>
 
-<section id="gift" style="background: #BFA468">
-  <div class="wrap" style="padding-block: clamp(42px, 5vw, 72px)">
-    <div style="display: flex; flex-wrap: wrap; gap: clamp(26px, 4vw, 60px); align-items: center">
-      <div style="flex: 999 1 380px; min-width: 0">
-        <h2 class="serif" style="margin: 0 0 14px; font-size: clamp(27px, 3.2vw, 40px); line-height: 1.12; color: #22281A">Gift cards, sent in about a minute</h2>
-        <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #342F1E; max-width: 32em">Any amount, delivered by email with the date you choose. The most-bought present in Mokena every December, and the only one that comes with a nap.</p>
-      </div>
-      <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-wrap: wrap; gap: 12px">
-        <a href="#book" data-open="gift" class="btn" style="padding: 17px 34px; background: var(--ink); color: var(--cream); font-size: 17px">Buy a gift card</a>
-        <a href="#book" data-open="book" data-service="party" class="btn" style="padding: 16px 32px; border: 1px solid #6E5E33; color: #22281A; font-size: 17px">Ask about parties</a>
-      </div>
+<section id="gift" class="gift">
+  <div class="wrap gift-inner">
+    <div>
+      <h2 class="h-md">Gift cards, sent in about a minute</h2>
+      <p>Any amount, delivered by email with the date you choose. The most-bought present in Mokena every December, and the only one that comes with a nap.</p>
+    </div>
+    <div class="btn-row">
+      <a href="#book" data-open="gift" class="btn btn-dark">Buy a gift card</a>
+      <a href="#book" data-open="book" data-service="party" class="btn btn-line">Ask about parties</a>
     </div>
   </div>
 </section>
 
-<section id="book" class="wrap" style="padding-block: clamp(48px, 6vw, 88px); text-align: center">
-  <h2 class="serif" style="margin: 0 0 18px; font-size: clamp(32px, 4vw, 50px); line-height: 1.08">Find a time that suits</h2>
-  <p style="margin: 0 auto 32px; font-size: 19px; line-height: 1.6; color: var(--body); max-width: 30em">The calendar is live. Pick the treatment, pick the hour, and we will send a reminder the day before.</p>
-  <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center">
-    <a href="#book" data-open="book" class="btn" style="padding: 18px 42px; background: var(--brass); color: #1E2A22; font-size: 18px; font-weight: 600">Book online</a>
-    <a href="tel:+17085550142" class="btn" style="padding: 17px 40px; border: 1px solid #B4BCAE; color: var(--ink); font-size: 18px">Call (708) 555-0142</a>
+<section id="book" class="wrap section cta">
+  <h2 class="h-lg">Find a time that suits</h2>
+  <p>The calendar is live. Pick the treatment, pick the hour, and we will send a reminder the day before.</p>
+  <div class="btn-row">
+    <a href="#book" data-open="book" class="btn btn-brass btn-lg">Book online</a>
+    <a href="tel:+17085550142" class="btn btn-line btn-lg">Call (708) 555-0142</a>
   </div>
 </section>
 
-<footer id="visit" style="background: var(--deep); color: #C8D2C6">
-  <div class="wrap" style="padding-block: clamp(40px, 5vw, 64px); display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 56px); font-size: 16px">
-    <div style="flex: 1 1 240px">
-      <p class="serif" style="margin: 0 0 12px; font-size: 21px; color: #F7F5EC">Front Street Salon &amp; Spa</p>
-      <p style="margin: 0; line-height: 1.7">11024 Front Street<br>Mokena, Illinois 60448</p>
+<footer id="visit" class="site-foot">
+  <div class="wrap foot-cols">
+    <div>
+      <h3>Front Street Salon &amp; Spa</h3>
+      <p>11024 Front Street<br>Mokena, Illinois 60448</p>
     </div>
-    <div style="flex: 1 1 200px">
-      <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9DAE9F">Hours</p>
-      <p style="margin: 0; line-height: 1.8">Tuesday to Friday, 9 to 7<br>Saturday, 8 to 4<br>Sunday, 10 to 3<br>Closed Monday</p>
+    <div>
+      <p class="foot-label">Hours</p>
+      <p>Tuesday to Friday, 9 to 7<br>Saturday, 8 to 4<br>Sunday, 10 to 3<br>Closed Monday</p>
     </div>
-    <div style="flex: 1 1 200px">
-      <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9DAE9F">Get in touch</p>
-      <p style="margin: 0; line-height: 1.8"><a href="tel:+17085550142" style="color: #D8CFA8">(708) 555-0142</a><br><a href="mailto:hello@example.com" style="color: #D8CFA8">hello@example.com</a></p>
+    <div>
+      <p class="foot-label">Get in touch</p>
+      <p><a href="tel:+17085550142">(708) 555-0142</a><br><a href="mailto:hello@example.com">hello@example.com</a></p>
     </div>
-    <div style="flex: 1 1 200px">
-      <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9DAE9F">Also</p>
-      <p style="margin: 0; line-height: 1.8">Parties and showers<br>Gift cards<br>Cancellation policy</p>
+    <div>
+      <p class="foot-label">Also</p>
+      <p>Parties and showers<br>Gift cards<br>Cancellation policy</p>
     </div>
   </div>
-  <div style="border-top: 1px solid #3E5245">
-    <div class="wrap" style="padding-block: 22px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; font-size: 15px; color: #9DAE9F">
+  <div class="foot-credit">
+    <div class="wrap">
       <span>A demonstration site. Front Street Salon &amp; Spa is not a real business.</span>
-      <span>Designed &amp; Built by <a href="https://goodlookingdigital.com" style="color: #D8CFA8">Good Looking Digital</a></span>
+      <span>Designed &amp; Built by <a href="https://goodlookingdigital.com">Good Looking Digital</a></span>
     </div>
   </div>
 </footer>
@@ -427,10 +582,7 @@
   function option(label, meta, subtext, onPick) {
     var b = el('button', { type: 'button', class: 'opt' });
     b.appendChild(document.createTextNode(label));
-    if (subtext) {
-      var s = el('span', { class: 'sub' }, subtext);
-      b.appendChild(s);
-    }
+    if (subtext) b.appendChild(el('span', { class: 'sub' }, subtext));
     if (meta) b.appendChild(el('span', { class: 'meta' }, meta));
     b.addEventListener('click', onPick);
     return b;
@@ -439,8 +591,7 @@
   function steps(names, current) {
     var ol = el('ol', { class: 'steps' });
     names.forEach(function (n, i) {
-      var li = el('li', i === current ? { 'aria-current': 'step' } : {}, n);
-      ol.appendChild(li);
+      ol.appendChild(el('li', i === current ? { 'aria-current': 'step' } : {}, n));
     });
     return ol;
   }
@@ -490,12 +641,6 @@
     return d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
   }
 
-  function demoNote(text) {
-    return el('p', { class: 'demo-note' }, text);
-  }
-
-  // ---- booking flow ----
-
   var BOOK_STEPS = ['Service', 'Stylist', 'Day', 'Time', 'Done'];
 
   function renderBooking() {
@@ -508,35 +653,29 @@
     body.appendChild(steps(BOOK_STEPS, state.step));
 
     if (state.step === 0) {
-      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'What are you coming in for?'));
+      body.appendChild(el('p', {}, 'What are you coming in for?'));
       SERVICES.forEach(function (s) {
         body.appendChild(option(s.name, s.price, null, function () {
-          state.service = s;
-          state.step = 1;
-          renderBooking();
+          state.service = s; state.step = 1; renderBooking();
         }));
       });
     } else if (state.step === 1) {
-      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'Anyone in particular?'));
+      body.appendChild(el('p', {}, 'Anyone in particular?'));
       STYLISTS.forEach(function (p) {
         body.appendChild(option(p.name, null, p.sub, function () {
-          state.stylist = p;
-          state.step = 2;
-          renderBooking();
+          state.stylist = p; state.step = 2; renderBooking();
         }));
       });
     } else if (state.step === 2) {
-      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'Which day suits? We are closed Mondays.'));
+      body.appendChild(el('p', {}, 'Which day suits? We are closed Mondays.'));
       openDays().forEach(function (d) {
         var count = slotsFor(d).filter(function (s) { return !s.taken; }).length;
         body.appendChild(option(dayLabel(d), count + ' open', null, function () {
-          state.date = d;
-          state.step = 3;
-          renderBooking();
+          state.date = d; state.step = 3; renderBooking();
         }));
       });
     } else if (state.step === 3) {
-      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, dayLabel(state.date) + ', with ' + state.stylist.name.toLowerCase() + '.'));
+      body.appendChild(el('p', {}, dayLabel(state.date) + ', with ' + state.stylist.name.toLowerCase() + '.'));
       var grid = el('div', { class: 'slots' });
       slotsFor(state.date).forEach(function (s) {
         var b = el('button', { type: 'button', class: 'slot' }, s.label);
@@ -544,11 +683,7 @@
           b.disabled = true;
           b.setAttribute('aria-label', s.label + ', already booked');
         } else {
-          b.addEventListener('click', function () {
-            state.time = s.label;
-            state.step = 4;
-            renderBooking();
-          });
+          b.addEventListener('click', function () { state.time = s.label; state.step = 4; renderBooking(); });
         }
         grid.appendChild(b);
       });
@@ -556,28 +691,30 @@
     } else {
       title.textContent = 'That is in the book';
       sub.textContent = 'A reminder would arrive the day before';
-      var dl = el('dl', { class: 'receipt' });
-      [
+      body.appendChild(receipt([
         ['Service', state.service.name],
         ['With', state.stylist.name],
         ['Day', dayLabel(state.date)],
         ['Time', state.time],
         ['Price', state.service.price]
-      ].forEach(function (row) {
-        var wrap = el('div');
-        wrap.appendChild(el('dt', {}, row[0]));
-        wrap.appendChild(el('dd', {}, row[1]));
-        dl.appendChild(wrap);
-      });
-      body.appendChild(dl);
-      body.appendChild(demoNote('This is a demonstration site, so no appointment has been made and nothing was sent. On a live salon site this step hands over to the booking system the salon already runs.'));
+      ]));
+      body.appendChild(el('p', { class: 'demo-note' }, 'This is a demonstration site, so no appointment has been made and nothing was sent. On a live salon site this step hands over to the booking system the salon already runs.'));
       status.textContent = 'Appointment summary ready.';
     }
 
     focusFirst();
   }
 
-  // ---- gift card flow ----
+  function receipt(rows) {
+    var dl = el('dl', { class: 'receipt' });
+    rows.forEach(function (row) {
+      var wrap = el('div');
+      wrap.appendChild(el('dt', {}, row[0]));
+      wrap.appendChild(el('dd', {}, row[1]));
+      dl.appendChild(wrap);
+    });
+    return dl;
+  }
 
   var GIFT_STEPS = ['Amount', 'Details', 'Done'];
 
@@ -591,35 +728,23 @@
     body.appendChild(steps(GIFT_STEPS, state.step));
 
     if (state.step === 0) {
-      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'How much would you like to give?'));
+      body.appendChild(el('p', {}, 'How much would you like to give?'));
       AMOUNTS.forEach(function (a) {
         body.appendChild(option('$' + a, null, null, function () {
-          state.amount = '$' + a;
-          state.step = 1;
-          renderGift();
+          state.amount = '$' + a; state.step = 1; renderGift();
         }));
       });
 
       var row = el('div', { style: 'display:flex;gap:10px;align-items:flex-end;margin-top:18px' });
       var field = el('div', { style: 'flex:1 1 auto' });
-      var lab = el('label', { for: 'gift-custom', style: 'display:block;margin-bottom:8px;font-size:15px;color:#55614F' }, 'Another amount');
-      var input = el('input', {
-        id: 'gift-custom', type: 'number', min: '25', step: '5', placeholder: '120',
-        style: 'width:100%;box-sizing:border-box;padding:14px 16px;font-size:16px;font-family:inherit;border:1px solid #D7D2C2;border-radius:8px;background:#FFF;color:#26322A'
-      });
-      field.appendChild(lab);
+      field.appendChild(el('label', { for: 'gift-custom', class: 'field-label' }, 'Another amount'));
+      var input = el('input', { id: 'gift-custom', type: 'number', min: '25', step: '5', placeholder: '120', class: 'field' });
       field.appendChild(input);
       var go = el('button', { type: 'button', class: 'primary' }, 'Use this');
       go.addEventListener('click', function () {
         var v = parseInt(input.value, 10);
-        if (!v || v < 25) {
-          status.textContent = 'Enter an amount of $25 or more.';
-          input.focus();
-          return;
-        }
-        state.amount = '$' + v;
-        state.step = 1;
-        renderGift();
+        if (!v || v < 25) { status.textContent = 'Enter an amount of $25 or more.'; input.focus(); return; }
+        state.amount = '$' + v; state.step = 1; renderGift();
       });
       row.appendChild(field);
       row.appendChild(go);
@@ -631,21 +756,12 @@
         ['gift-email', 'Their email address', 'email', 'them@example.com'],
         ['gift-from', 'From', 'text', 'Your name']
       ].forEach(function (f) {
-        form.appendChild(el('label', { for: f[0], style: 'display:block;margin-bottom:8px;font-size:15px;color:#55614F' }, f[1]));
-        var inp = el('input', {
-          id: f[0], name: f[0], type: f[2], required: 'required', placeholder: f[3],
-          style: 'width:100%;box-sizing:border-box;margin-bottom:18px;padding:14px 16px;font-size:16px;font-family:inherit;border:1px solid #D7D2C2;border-radius:8px;background:#FFF;color:#26322A'
-        });
-        form.appendChild(inp);
+        form.appendChild(el('label', { for: f[0], class: 'field-label' }, f[1]));
+        form.appendChild(el('input', { id: f[0], name: f[0], type: f[2], required: 'required', placeholder: f[3], class: 'field', style: 'margin-bottom:18px' }));
       });
-      form.appendChild(el('label', { for: 'gift-msg', style: 'display:block;margin-bottom:8px;font-size:15px;color:#55614F' }, 'A short message, if you like'));
-      var ta = el('textarea', {
-        id: 'gift-msg', name: 'gift-msg', rows: '3',
-        style: 'width:100%;box-sizing:border-box;margin-bottom:18px;padding:14px 16px;font-size:16px;font-family:inherit;border:1px solid #D7D2C2;border-radius:8px;background:#FFF;color:#26322A'
-      });
-      form.appendChild(ta);
-      var submit = el('button', { type: 'submit', class: 'primary' }, 'Review the ' + state.amount + ' card');
-      form.appendChild(submit);
+      form.appendChild(el('label', { for: 'gift-msg', class: 'field-label' }, 'A short message, if you like'));
+      form.appendChild(el('textarea', { id: 'gift-msg', name: 'gift-msg', rows: '3', class: 'field', style: 'margin-bottom:18px' }));
+      form.appendChild(el('button', { type: 'submit', class: 'primary' }, 'Review the ' + state.amount + ' card'));
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         state.to = document.getElementById('gift-to').value || 'Them';
@@ -658,27 +774,18 @@
     } else {
       title.textContent = 'Ready to send';
       sub.textContent = 'It would arrive in about a minute';
-      var dl2 = el('dl', { class: 'receipt' });
-      [
+      body.appendChild(receipt([
         ['Amount', state.amount],
         ['For', state.to],
         ['To', state.toEmail],
         ['From', state.from]
-      ].forEach(function (row) {
-        var wrap = el('div');
-        wrap.appendChild(el('dt', {}, row[0]));
-        wrap.appendChild(el('dd', {}, row[1]));
-        dl2.appendChild(wrap);
-      });
-      body.appendChild(dl2);
-      body.appendChild(demoNote('This is a demonstration site. No card was issued, no email was sent and no payment was taken. On a live salon site this step hands over to the salon’s own payment provider, so card details never touch the website.'));
+      ]));
+      body.appendChild(el('p', { class: 'demo-note' }, 'This is a demonstration site. No card was issued, no email was sent and no payment was taken. On a live salon site this step hands over to the salon’s own payment provider, so card details never touch the website.'));
       status.textContent = 'Gift card summary ready.';
     }
 
     focusFirst();
   }
-
-  // ---- shell ----
 
   var render = renderBooking;
 

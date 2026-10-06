@@ -72,6 +72,88 @@
   @media (max-width: 860px) {
     .grid-3 { grid-template-columns: 1fr; }
   }
+
+  /* Booking and gift card panels. Nothing here talks to a server: the demo
+     simulates the flow a real salon would run through Vagaro or Boulevard. */
+  .sheet[hidden] { display: none; }
+  .sheet {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(0px, 4vw, 32px);
+  }
+  .sheet-backdrop { position: absolute; inset: 0; background: rgba(26, 36, 29, 0.55); }
+  .sheet-panel {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 560px; max-height: 100%;
+    display: flex; flex-direction: column;
+    background: var(--cream); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(20, 28, 22, 0.35);
+  }
+  .sheet-head {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 22px 24px; background: var(--deep); color: #F7F5EC;
+  }
+  .sheet-head h2 { margin: 0; font-family: Marcellus, Georgia, serif; font-size: 23px; }
+  .sheet-head p { margin: 4px 0 0; font-size: 15px; color: #C8D2C6; }
+  .sheet-close {
+    margin-left: auto; flex: 0 0 auto;
+    width: 44px; height: 44px; border-radius: 999px;
+    background: transparent; border: 1px solid #5E7264; color: #EFEDE3;
+    font-size: 20px; line-height: 1; cursor: pointer;
+  }
+  .sheet-close:hover { background: #3B4D40; }
+  .sheet-body { padding: 24px; overflow-y: auto; }
+  .sheet-foot {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    padding: 16px 24px; border-top: 1px solid var(--line); background: #EFECE1;
+  }
+  .steps { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; padding: 0; list-style: none; }
+  .steps li { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8D9589; }
+  .steps li[aria-current="step"] { color: var(--ink); font-weight: 600; }
+  .steps li + li::before { content: "/"; margin-right: 8px; color: #BFC4B8; }
+  .opt {
+    display: flex; width: 100%; gap: 14px; align-items: baseline;
+    margin-bottom: 10px; padding: 16px 18px; text-align: left;
+    background: #FFF; border: 1px solid #E0DCCE; border-radius: 10px;
+    font-family: inherit; font-size: 17px; color: var(--ink); cursor: pointer;
+  }
+  .opt:hover { border-color: #A9B3A3; }
+  .opt[aria-pressed="true"] { border-color: #8C7434; background: #F6EFDC; box-shadow: inset 0 0 0 1px #8C7434; }
+  .opt .meta { margin-left: auto; color: #6A7366; font-size: 16px; white-space: nowrap; }
+  .opt .sub { display: block; margin-top: 4px; font-size: 15px; color: #6A7366; }
+  .slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .slot {
+    padding: 14px 6px; text-align: center;
+    background: #FFF; border: 1px solid #E0DCCE; border-radius: 8px;
+    font-family: inherit; font-size: 16px; color: var(--ink); cursor: pointer;
+  }
+  .slot:hover:not(:disabled) { border-color: #A9B3A3; }
+  .slot:disabled { color: #AEB3A8; background: #EDEADF; cursor: not-allowed; text-decoration: line-through; }
+  .sheet :focus-visible { outline: 3px solid #8C7434; outline-offset: 2px; }
+  .receipt { margin: 0 0 20px; font-size: 17px; }
+  .receipt div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .receipt dt { color: var(--body); }
+  .receipt dd { margin: 0; color: var(--ink); text-align: right; }
+  .demo-note {
+    margin: 0; padding: 16px 18px; border-radius: 10px;
+    background: #E7E3D3; border: 1px solid #D5CFB9;
+    font-size: 16px; line-height: 1.6; color: #4C5247;
+  }
+  .ghost {
+    padding: 13px 20px; background: transparent; border: 1px solid #B4BCAE;
+    border-radius: 999px; font-family: inherit; font-size: 16px; color: var(--ink); cursor: pointer;
+  }
+  .ghost:hover { background: #E4E0D2; }
+  .primary {
+    padding: 14px 28px; background: var(--brass); border: none; border-radius: 999px;
+    font-family: inherit; font-size: 16px; font-weight: 600; color: #1E2A22; cursor: pointer;
+  }
+  .primary:hover { background: #BBA066; }
+  @media (max-width: 560px) {
+    .sheet { padding: 0; align-items: flex-end; }
+    .sheet-panel { max-width: none; border-radius: 16px 16px 0 0; max-height: 92vh; }
+    .slots { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
 </style>
 </head>
 <body>
@@ -97,7 +179,7 @@
     </nav>
     <div style="flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
       <a href="tel:+17085550142" style="font-size: 15px; color: #46544A; text-decoration: none">(708) 555-0142</a>
-      <a href="#book" class="btn" style="padding: 13px 26px; background: var(--brass); color: #1E2A22; font-size: 15px; font-weight: 600">Book</a>
+      <a href="#book" data-open="book" class="btn" style="padding: 13px 26px; background: var(--brass); color: #1E2A22; font-size: 15px; font-weight: 600">Book</a>
     </div>
   </div>
 </header>
@@ -110,7 +192,7 @@
         <h1 class="serif" style="margin: 0 0 26px; font-size: clamp(40px, 5.4vw, 66px); line-height: 1.06; color: #F7F5EC">Ninety minutes that belong to you.</h1>
         <p style="margin: 0 0 34px; font-size: 19px; line-height: 1.68; color: #C8D2C6; max-width: 32em">Massage, facials, colour and care, in a room that stays quiet. Park on Front Street, come in, put the phone down. We will tell you when the time is up.</p>
         <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center">
-          <a href="#book" class="btn" style="padding: 17px 36px; background: var(--brass); color: #1E2A22; font-size: 17px; font-weight: 600">Book a treatment</a>
+          <a href="#book" data-open="book" class="btn" style="padding: 17px 36px; background: var(--brass); color: #1E2A22; font-size: 17px; font-weight: 600">Book a treatment</a>
           <a href="#packages" class="btn" style="padding: 16px 34px; border: 1px solid #6B7D6F; color: #EFEDE3; font-size: 17px">See packages</a>
         </div>
       </div>
@@ -173,7 +255,7 @@
     <div style="flex: 1 1 300px; min-width: 0">
       <h2 class="serif" style="margin: 0 0 16px; font-size: clamp(27px, 3vw, 38px); line-height: 1.14">Hair, in the same calm</h2>
       <p style="margin: 0 0 22px; font-size: 17px; line-height: 1.65; color: var(--body)">Colour and cutting share the building but not the noise. Every colour starts with a strand test and a written quote, so the number at the desk is the number you were told.</p>
-      <a href="#book" style="font-size: 17px">Book with a colourist</a>
+      <a href="#book" data-open="book" data-service="colour" style="font-size: 17px">Book with a colourist</a>
     </div>
     <div style="flex: 999 1 400px; min-width: 0">
       <dl style="margin: 0; font-size: 17px; color: #46544A">
@@ -236,8 +318,8 @@
         <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #342F1E; max-width: 32em">Any amount, delivered by email with the date you choose. The most-bought present in Mokena every December, and the only one that comes with a nap.</p>
       </div>
       <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-wrap: wrap; gap: 12px">
-        <a href="#book" class="btn" style="padding: 17px 34px; background: var(--ink); color: var(--cream); font-size: 17px">Buy a gift card</a>
-        <a href="#visit" class="btn" style="padding: 16px 32px; border: 1px solid #6E5E33; color: #22281A; font-size: 17px">Ask about parties</a>
+        <a href="#book" data-open="gift" class="btn" style="padding: 17px 34px; background: var(--ink); color: var(--cream); font-size: 17px">Buy a gift card</a>
+        <a href="#book" data-open="book" data-service="party" class="btn" style="padding: 16px 32px; border: 1px solid #6E5E33; color: #22281A; font-size: 17px">Ask about parties</a>
       </div>
     </div>
   </div>
@@ -247,7 +329,7 @@
   <h2 class="serif" style="margin: 0 0 18px; font-size: clamp(32px, 4vw, 50px); line-height: 1.08">Find a time that suits</h2>
   <p style="margin: 0 auto 32px; font-size: 19px; line-height: 1.6; color: var(--body); max-width: 30em">The calendar is live. Pick the treatment, pick the hour, and we will send a reminder the day before.</p>
   <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center">
-    <a href="#book" class="btn" style="padding: 18px 42px; background: var(--brass); color: #1E2A22; font-size: 18px; font-weight: 600">Book online</a>
+    <a href="#book" data-open="book" class="btn" style="padding: 18px 42px; background: var(--brass); color: #1E2A22; font-size: 18px; font-weight: 600">Book online</a>
     <a href="tel:+17085550142" class="btn" style="padding: 17px 40px; border: 1px solid #B4BCAE; color: var(--ink); font-size: 18px">Call (708) 555-0142</a>
   </div>
 </section>
@@ -278,6 +360,391 @@
     </div>
   </div>
 </footer>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-backdrop" data-sheet-close></div>
+  <div class="sheet-panel">
+    <div class="sheet-head">
+      <div>
+        <h2 id="sheet-title">Book an appointment</h2>
+        <p id="sheet-sub">Front Street Salon &amp; Spa</p>
+      </div>
+      <button type="button" class="sheet-close" data-sheet-close aria-label="Close">&#215;</button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+    <div class="sheet-foot">
+      <button type="button" class="ghost" id="sheet-back">Back</button>
+      <span id="sheet-status" aria-live="polite" style="font-size: 15px; color: #6A7366"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // A demonstration of the booking flow a real salon runs through Vagaro,
+  // Boulevard or Square. Nothing leaves the browser and nothing is stored.
+
+  var SERVICES = [
+    { id: 'cut',     name: 'Cut and finish',            price: 'from $65',  mins: 60 },
+    { id: 'colour',  name: 'Colour or balayage',        price: 'from $85',  mins: 120 },
+    { id: 'blowout', name: 'Blowout',                   price: 'from $45',  mins: 45 },
+    { id: 'facial',  name: 'Signature facial',          price: 'from $110', mins: 60 },
+    { id: 'massage', name: 'Massage, 60 minutes',       price: 'from $95',  mins: 60 },
+    { id: 'nails',   name: 'Gel manicure',              price: 'from $45',  mins: 45 },
+    { id: 'package', name: 'A package or an afternoon', price: 'from $185', mins: 240 },
+    { id: 'party',   name: 'A party, four or more',     price: 'quoted',    mins: 0 }
+  ];
+
+  var STYLISTS = [
+    { id: 'any',   name: 'First available', sub: 'Whoever opens up soonest' },
+    { id: 'erin',  name: 'Erin',            sub: 'Cutting and styling' },
+    { id: 'dani',  name: 'Dani',            sub: 'Colour and correction' },
+    { id: 'lidia', name: 'Lidia',           sub: 'Skin and massage' }
+  ];
+
+  var AMOUNTS = [50, 75, 100, 150, 200];
+
+  var sheet = document.getElementById('sheet');
+  var panel = sheet.querySelector('.sheet-panel');
+  var body = document.getElementById('sheet-body');
+  var title = document.getElementById('sheet-title');
+  var sub = document.getElementById('sheet-sub');
+  var back = document.getElementById('sheet-back');
+  var status = document.getElementById('sheet-status');
+
+  var state = {};
+  var lastFocused = null;
+
+  function el(tag, attrs, text) {
+    var node = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) { node.setAttribute(k, attrs[k]); });
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function option(label, meta, subtext, onPick) {
+    var b = el('button', { type: 'button', class: 'opt' });
+    b.appendChild(document.createTextNode(label));
+    if (subtext) {
+      var s = el('span', { class: 'sub' }, subtext);
+      b.appendChild(s);
+    }
+    if (meta) b.appendChild(el('span', { class: 'meta' }, meta));
+    b.addEventListener('click', onPick);
+    return b;
+  }
+
+  function steps(names, current) {
+    var ol = el('ol', { class: 'steps' });
+    names.forEach(function (n, i) {
+      var li = el('li', i === current ? { 'aria-current': 'step' } : {}, n);
+      ol.appendChild(li);
+    });
+    return ol;
+  }
+
+  function openDays() {
+    var out = [];
+    var d = new Date();
+    d.setHours(0, 0, 0, 0);
+    while (out.length < 8) {
+      d = new Date(d.getTime() + 86400000);
+      if (d.getDay() !== 1) out.push(new Date(d)); // closed Mondays
+    }
+    return out;
+  }
+
+  function hoursFor(day) {
+    if (day === 0) return [10, 15];
+    if (day === 6) return [8, 16];
+    return [9, 19];
+  }
+
+  function clockLabel(mins) {
+    var h = Math.floor(mins / 60);
+    var m = mins % 60;
+    var suffix = h < 12 ? 'am' : 'pm';
+    var h12 = h % 12 === 0 ? 12 : h % 12;
+    return h12 + ':' + (m < 10 ? '0' + m : m) + ' ' + suffix;
+  }
+
+  function slotsFor(date) {
+    var range = hoursFor(date.getDay());
+    var out = [];
+    var mins = range[0] * 60;
+    var end = range[1] * 60 - 60;
+    var i = 0;
+    while (mins <= end) {
+      // Deterministic so the same day always shows the same gaps.
+      var taken = ((date.getDate() * 7) + (i * 13)) % 10 < 3;
+      out.push({ label: clockLabel(mins), taken: taken });
+      mins += 45;
+      i += 1;
+    }
+    return out;
+  }
+
+  function dayLabel(d) {
+    return d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  }
+
+  function demoNote(text) {
+    return el('p', { class: 'demo-note' }, text);
+  }
+
+  // ---- booking flow ----
+
+  var BOOK_STEPS = ['Service', 'Stylist', 'Day', 'Time', 'Done'];
+
+  function renderBooking() {
+    body.innerHTML = '';
+    status.textContent = '';
+    title.textContent = 'Book an appointment';
+    sub.textContent = 'Front Street Salon & Spa';
+    back.hidden = state.step === 0 || state.step === 4;
+
+    body.appendChild(steps(BOOK_STEPS, state.step));
+
+    if (state.step === 0) {
+      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'What are you coming in for?'));
+      SERVICES.forEach(function (s) {
+        body.appendChild(option(s.name, s.price, null, function () {
+          state.service = s;
+          state.step = 1;
+          renderBooking();
+        }));
+      });
+    } else if (state.step === 1) {
+      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'Anyone in particular?'));
+      STYLISTS.forEach(function (p) {
+        body.appendChild(option(p.name, null, p.sub, function () {
+          state.stylist = p;
+          state.step = 2;
+          renderBooking();
+        }));
+      });
+    } else if (state.step === 2) {
+      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'Which day suits? We are closed Mondays.'));
+      openDays().forEach(function (d) {
+        var count = slotsFor(d).filter(function (s) { return !s.taken; }).length;
+        body.appendChild(option(dayLabel(d), count + ' open', null, function () {
+          state.date = d;
+          state.step = 3;
+          renderBooking();
+        }));
+      });
+    } else if (state.step === 3) {
+      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, dayLabel(state.date) + ', with ' + state.stylist.name.toLowerCase() + '.'));
+      var grid = el('div', { class: 'slots' });
+      slotsFor(state.date).forEach(function (s) {
+        var b = el('button', { type: 'button', class: 'slot' }, s.label);
+        if (s.taken) {
+          b.disabled = true;
+          b.setAttribute('aria-label', s.label + ', already booked');
+        } else {
+          b.addEventListener('click', function () {
+            state.time = s.label;
+            state.step = 4;
+            renderBooking();
+          });
+        }
+        grid.appendChild(b);
+      });
+      body.appendChild(grid);
+    } else {
+      title.textContent = 'That is in the book';
+      sub.textContent = 'A reminder would arrive the day before';
+      var dl = el('dl', { class: 'receipt' });
+      [
+        ['Service', state.service.name],
+        ['With', state.stylist.name],
+        ['Day', dayLabel(state.date)],
+        ['Time', state.time],
+        ['Price', state.service.price]
+      ].forEach(function (row) {
+        var wrap = el('div');
+        wrap.appendChild(el('dt', {}, row[0]));
+        wrap.appendChild(el('dd', {}, row[1]));
+        dl.appendChild(wrap);
+      });
+      body.appendChild(dl);
+      body.appendChild(demoNote('This is a demonstration site, so no appointment has been made and nothing was sent. On a live salon site this step hands over to the booking system the salon already runs.'));
+      status.textContent = 'Appointment summary ready.';
+    }
+
+    focusFirst();
+  }
+
+  // ---- gift card flow ----
+
+  var GIFT_STEPS = ['Amount', 'Details', 'Done'];
+
+  function renderGift() {
+    body.innerHTML = '';
+    status.textContent = '';
+    title.textContent = 'Buy a gift card';
+    sub.textContent = 'Delivered by email, any date you choose';
+    back.hidden = state.step === 0 || state.step === 2;
+
+    body.appendChild(steps(GIFT_STEPS, state.step));
+
+    if (state.step === 0) {
+      body.appendChild(el('p', { style: 'margin:0 0 16px;font-size:17px;color:#55614F' }, 'How much would you like to give?'));
+      AMOUNTS.forEach(function (a) {
+        body.appendChild(option('$' + a, null, null, function () {
+          state.amount = '$' + a;
+          state.step = 1;
+          renderGift();
+        }));
+      });
+
+      var row = el('div', { style: 'display:flex;gap:10px;align-items:flex-end;margin-top:18px' });
+      var field = el('div', { style: 'flex:1 1 auto' });
+      var lab = el('label', { for: 'gift-custom', style: 'display:block;margin-bottom:8px;font-size:15px;color:#55614F' }, 'Another amount');
+      var input = el('input', {
+        id: 'gift-custom', type: 'number', min: '25', step: '5', placeholder: '120',
+        style: 'width:100%;box-sizing:border-box;padding:14px 16px;font-size:16px;font-family:inherit;border:1px solid #D7D2C2;border-radius:8px;background:#FFF;color:#26322A'
+      });
+      field.appendChild(lab);
+      field.appendChild(input);
+      var go = el('button', { type: 'button', class: 'primary' }, 'Use this');
+      go.addEventListener('click', function () {
+        var v = parseInt(input.value, 10);
+        if (!v || v < 25) {
+          status.textContent = 'Enter an amount of $25 or more.';
+          input.focus();
+          return;
+        }
+        state.amount = '$' + v;
+        state.step = 1;
+        renderGift();
+      });
+      row.appendChild(field);
+      row.appendChild(go);
+      body.appendChild(row);
+    } else if (state.step === 1) {
+      var form = el('form', { id: 'gift-form' });
+      [
+        ['gift-to', 'Who is it for', 'text', 'Their name'],
+        ['gift-email', 'Their email address', 'email', 'them@example.com'],
+        ['gift-from', 'From', 'text', 'Your name']
+      ].forEach(function (f) {
+        form.appendChild(el('label', { for: f[0], style: 'display:block;margin-bottom:8px;font-size:15px;color:#55614F' }, f[1]));
+        var inp = el('input', {
+          id: f[0], name: f[0], type: f[2], required: 'required', placeholder: f[3],
+          style: 'width:100%;box-sizing:border-box;margin-bottom:18px;padding:14px 16px;font-size:16px;font-family:inherit;border:1px solid #D7D2C2;border-radius:8px;background:#FFF;color:#26322A'
+        });
+        form.appendChild(inp);
+      });
+      form.appendChild(el('label', { for: 'gift-msg', style: 'display:block;margin-bottom:8px;font-size:15px;color:#55614F' }, 'A short message, if you like'));
+      var ta = el('textarea', {
+        id: 'gift-msg', name: 'gift-msg', rows: '3',
+        style: 'width:100%;box-sizing:border-box;margin-bottom:18px;padding:14px 16px;font-size:16px;font-family:inherit;border:1px solid #D7D2C2;border-radius:8px;background:#FFF;color:#26322A'
+      });
+      form.appendChild(ta);
+      var submit = el('button', { type: 'submit', class: 'primary' }, 'Review the ' + state.amount + ' card');
+      form.appendChild(submit);
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        state.to = document.getElementById('gift-to').value || 'Them';
+        state.toEmail = document.getElementById('gift-email').value;
+        state.from = document.getElementById('gift-from').value || 'You';
+        state.step = 2;
+        renderGift();
+      });
+      body.appendChild(form);
+    } else {
+      title.textContent = 'Ready to send';
+      sub.textContent = 'It would arrive in about a minute';
+      var dl2 = el('dl', { class: 'receipt' });
+      [
+        ['Amount', state.amount],
+        ['For', state.to],
+        ['To', state.toEmail],
+        ['From', state.from]
+      ].forEach(function (row) {
+        var wrap = el('div');
+        wrap.appendChild(el('dt', {}, row[0]));
+        wrap.appendChild(el('dd', {}, row[1]));
+        dl2.appendChild(wrap);
+      });
+      body.appendChild(dl2);
+      body.appendChild(demoNote('This is a demonstration site. No card was issued, no email was sent and no payment was taken. On a live salon site this step hands over to the salon’s own payment provider, so card details never touch the website.'));
+      status.textContent = 'Gift card summary ready.';
+    }
+
+    focusFirst();
+  }
+
+  // ---- shell ----
+
+  var render = renderBooking;
+
+  function focusFirst() {
+    var target = body.querySelector('button:not(:disabled), input, textarea');
+    (target || panel.querySelector('.sheet-close')).focus();
+  }
+
+  function focusable() {
+    return Array.prototype.filter.call(
+      panel.querySelectorAll('button, input, textarea, a[href]'),
+      function (n) { return !n.disabled && n.offsetParent !== null; }
+    );
+  }
+
+  function open(mode, presetService, trigger) {
+    // Hold the trigger itself rather than whatever happens to have focus, so
+    // closing always returns the caret to the control the visitor pressed.
+    lastFocused = trigger || document.activeElement;
+    state = { step: 0 };
+    render = mode === 'gift' ? renderGift : renderBooking;
+
+    if (mode !== 'gift' && presetService) {
+      var match = SERVICES.filter(function (s) { return s.id === presetService; })[0];
+      if (match) { state.service = match; state.step = 1; }
+    }
+
+    sheet.hidden = false;
+    document.body.style.overflow = 'hidden';
+    render();
+  }
+
+  function close() {
+    sheet.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  back.addEventListener('click', function () {
+    if (state.step > 0) { state.step -= 1; render(); }
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-sheet-close]'), function (n) {
+    n.addEventListener('click', close);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (sheet.hidden) return;
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+    var items = focusable();
+    if (!items.length) return;
+    var first = items[0];
+    var last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-open]'), function (trigger) {
+    trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      open(trigger.getAttribute('data-open'), trigger.getAttribute('data-service'), trigger);
+    });
+  });
+})();
+</script>
 
 </body>
 </html>

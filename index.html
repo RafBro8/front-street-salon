@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Front Street Salon and Spa, a full-service salon and day spa in Mokena, Illinois. Hair, colour, facials, massage and nails.">
+<!--
+  Front Street Salon and Spa is a fictional business and this is a demonstration
+  site. It is here to be linked from goodlookingdigital.com, not to be found by
+  someone searching for a salon in Mokena, who would arrive, read half a page
+  and try to book an appointment that nobody can honour.
+
+  Crawling stays allowed on purpose. A crawler has to fetch the page to read the
+  tag below, so disallowing in robots.txt would hide it and the address could
+  still be indexed from a link elsewhere, with no description and no way to
+  correct it.
+
+  The tag comes off if this site is ever sold to a real business.
+-->
+<meta name="robots" content="noindex, nofollow">
+<title>Front Street Salon &amp; Spa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@300;400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: only light;
+    --cream: #F5F2EA;
+    --ink: #26322A;
+    --deep: #2F3F34;
+    --body: #55614F;
+    --brass: #C6AC72;
+    --line: #E2DED0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Karla, system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: #3A5141; }
+  a:hover { color: #253429; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 56px); }
+  .serif { font-family: Marcellus, Georgia, serif; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  /* One treatment across every photograph. The set is well matched but not a
+     single shoot, and this is what stops it reading as assorted stock. */
+  .shot {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0.88) sepia(0.06) contrast(1.02);
+  }
+  .frame { overflow: hidden; position: relative; background: #E6E2D8; }
+  .frame::after {
+    content: ""; position: absolute; inset: 0;
+    background: #3E5142; opacity: 0.07; pointer-events: none;
+  }
+  .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .gallery .frame { aspect-ratio: 1 / 1; border-radius: 10px; }
+  @media (max-width: 860px) {
+    .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .row { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; }
+  .btn { display: inline-block; text-decoration: none; border-radius: 999px; }
+  .card { background: #FFF; border: 1px solid #E5E1D3; border-radius: 14px; overflow: hidden; }
+  .demo-flag {
+    background: var(--deep); color: #C8D2C6; text-align: center;
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; margin: 0;
+  }
+  @media (max-width: 860px) {
+    .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<p class="demo-flag">Demo site &middot; Front Street Salon &amp; Spa is not a real business</p>
+
+<header>
+  <div class="wrap" style="padding-block: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+    <a href="#top" style="flex: 0 0 auto; display: flex; align-items: center; gap: 11px; text-decoration: none">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4A5D4E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 21c0-6 3-11 8-13-1 7-4 11-8 13z"></path>
+        <path d="M12 21c0-5-2.5-9-7-10.5C5.6 16 8.6 19.6 12 21z"></path>
+        <path d="M12 21v-4"></path>
+      </svg>
+      <span class="serif" style="font-size: 22px; color: var(--ink)">Front Street</span>
+    </a>
+    <nav style="flex: 999 1 auto; display: flex; flex-wrap: wrap; gap: clamp(16px, 2.2vw, 30px); font-size: 15px">
+      <a href="#spa" style="color: #46544A; text-decoration: none">Spa</a>
+      <a href="#services" style="color: #46544A; text-decoration: none">Hair</a>
+      <a href="#packages" style="color: #46544A; text-decoration: none">Packages</a>
+      <a href="#gift" style="color: #46544A; text-decoration: none">Gift cards</a>
+      <a href="#visit" style="color: #46544A; text-decoration: none">Visit</a>
+    </nav>
+    <div style="flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
+      <a href="tel:+17085550142" style="font-size: 15px; color: #46544A; text-decoration: none">(708) 555-0142</a>
+      <a href="#book" class="btn" style="padding: 13px 26px; background: var(--brass); color: #1E2A22; font-size: 15px; font-weight: 600">Book</a>
+    </div>
+  </div>
+</header>
+
+<section id="top" style="background: var(--deep); color: #EFEDE3">
+  <div class="wrap" style="padding-block: clamp(48px, 6vw, 96px)">
+    <div style="display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 64px); align-items: center">
+      <div style="flex: 999 1 420px; min-width: 0">
+        <p style="margin: 0 0 22px; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #BFA468">Salon and day spa &middot; Mokena</p>
+        <h1 class="serif" style="margin: 0 0 26px; font-size: clamp(40px, 5.4vw, 66px); line-height: 1.06; color: #F7F5EC">Ninety minutes that belong to you.</h1>
+        <p style="margin: 0 0 34px; font-size: 19px; line-height: 1.68; color: #C8D2C6; max-width: 32em">Massage, facials, colour and care, in a room that stays quiet. Park on Front Street, come in, put the phone down. We will tell you when the time is up.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center">
+          <a href="#book" class="btn" style="padding: 17px 36px; background: var(--brass); color: #1E2A22; font-size: 17px; font-weight: 600">Book a treatment</a>
+          <a href="#packages" class="btn" style="padding: 16px 34px; border: 1px solid #6B7D6F; color: #EFEDE3; font-size: 17px">See packages</a>
+        </div>
+      </div>
+      <div style="flex: 1 1 340px; min-width: 0">
+        <div class="frame" style="height: 520px; border-radius: 240px 240px 10px 10px">
+          <img class="shot" src="img/hero-room.jpg" width="900" height="1150" alt="A quiet treatment room with a linen-covered bed beside a window.">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="padding-block: clamp(28px, 3vw, 44px); display: flex; flex-wrap: wrap; gap: clamp(20px, 4vw, 52px); font-size: 15px; color: #46544A; border-bottom: 1px solid var(--line)">
+  <span>Quiet rooms, no walk-in traffic</span>
+  <span>Licensed massage therapists</span>
+  <span>Couples and group bookings</span>
+  <span>Gift cards by email, same day</span>
+</section>
+
+<section id="spa" class="wrap" style="padding-block: clamp(48px, 6vw, 86px)">
+  <h2 class="serif" style="margin: 0 0 14px; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.12">Start with the quiet</h2>
+  <p style="margin: 0 0 44px; font-size: 17px; line-height: 1.65; color: var(--body); max-width: 36em">Three rooms, each with its own door. Nothing is shared, nothing is rushed, and the treatment you booked is the treatment you get.</p>
+
+  <div class="grid-3">
+    <article class="card">
+      <div class="frame" style="height: 210px">
+        <img class="shot" src="img/svc-massage.jpg" width="800" height="560" loading="lazy" alt="A therapist's hands working across a client's shoulder.">
+      </div>
+      <div style="padding: 26px">
+        <h3 class="serif" style="margin: 0 0 10px; font-size: 22px">Massage</h3>
+        <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--body)">Swedish, deep tissue or prenatal. Thirty, sixty or ninety minutes.</p>
+        <p style="margin: 0; font-size: 16px; color: var(--ink)">From $65</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="frame" style="height: 210px">
+        <img class="shot" src="img/svc-facial.jpg" width="800" height="560" loading="lazy" alt="A clay mask being brushed on during a facial, towels tucked around.">
+      </div>
+      <div style="padding: 26px">
+        <h3 class="serif" style="margin: 0 0 10px; font-size: 22px">Facials</h3>
+        <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--body)">Signature, hydrating or clarifying, after a skin consultation.</p>
+        <p style="margin: 0; font-size: 16px; color: var(--ink)">From $110</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="frame" style="height: 210px">
+        <img class="shot" src="img/svc-nails.jpg" width="800" height="560" loading="lazy" alt="A manicurist painting a client's nails.">
+      </div>
+      <div style="padding: 26px">
+        <h3 class="serif" style="margin: 0 0 10px; font-size: 22px">Hands and feet</h3>
+        <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: var(--body)">Gel, classic and spa treatments, in the quiet room or the salon.</p>
+        <p style="margin: 0; font-size: 16px; color: var(--ink)">From $38</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="services" style="background: #ECE9DD">
+  <div class="wrap" style="padding-block: clamp(44px, 5vw, 78px); display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 60px)">
+    <div style="flex: 1 1 300px; min-width: 0">
+      <h2 class="serif" style="margin: 0 0 16px; font-size: clamp(27px, 3vw, 38px); line-height: 1.14">Hair, in the same calm</h2>
+      <p style="margin: 0 0 22px; font-size: 17px; line-height: 1.65; color: var(--body)">Colour and cutting share the building but not the noise. Every colour starts with a strand test and a written quote, so the number at the desk is the number you were told.</p>
+      <a href="#book" style="font-size: 17px">Book with a colourist</a>
+    </div>
+    <div style="flex: 999 1 400px; min-width: 0">
+      <dl style="margin: 0; font-size: 17px; color: #46544A">
+        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Cut and finish</dt><dd style="margin: 0; color: var(--ink)">from $65</dd></div>
+        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Root touch-up</dt><dd style="margin: 0; color: var(--ink)">from $85</dd></div>
+        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Partial highlight</dt><dd style="margin: 0; color: var(--ink)">from $130</dd></div>
+        <div class="row" style="border-bottom: 1px solid #DCD7C7"><dt>Balayage</dt><dd style="margin: 0; color: var(--ink)">from $185</dd></div>
+        <div class="row"><dt>Blowout</dt><dd style="margin: 0; color: var(--ink)">from $45</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="packages" class="wrap" style="padding-block: clamp(48px, 6vw, 86px)">
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; margin-bottom: 40px">
+    <h2 class="serif" style="margin: 0; flex: 999 1 300px; font-size: clamp(30px, 3.4vw, 42px); line-height: 1.12">Half days and whole afternoons</h2>
+    <p style="margin: 0; flex: 1 1 260px; font-size: 16px; line-height: 1.6; color: var(--body)">Booked as one appointment, so nobody waits in the hallway between treatments.</p>
+  </div>
+
+  <div class="grid-3">
+    <article style="background: #FFF; border: 1px solid #E5E1D3; border-radius: 14px; padding: 30px">
+      <h3 class="serif" style="margin: 0 0 8px; font-size: 23px">The short one</h3>
+      <p style="margin: 0 0 18px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #7D6E42">Two hours</p>
+      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: var(--body)">Sixty-minute massage, express facial, and tea in the quiet room for as long as you like.</p>
+      <p style="margin: 0; font-size: 20px; color: var(--ink)">$185</p>
+    </article>
+    <article style="background: var(--deep); color: #EFEDE3; border: 1px solid var(--deep); border-radius: 14px; padding: 30px">
+      <h3 class="serif" style="margin: 0 0 8px; font-size: 23px; color: #F7F5EC">The afternoon</h3>
+      <p style="margin: 0 0 18px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #C6AC72">Four hours</p>
+      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: #C8D2C6">Massage, signature facial, gel manicure and a blowout to finish. Lunch included.</p>
+      <p style="margin: 0; font-size: 20px; color: #F7F5EC">$345</p>
+    </article>
+    <article style="background: #FFF; border: 1px solid #E5E1D3; border-radius: 14px; padding: 30px">
+      <h3 class="serif" style="margin: 0 0 8px; font-size: 23px">For two</h3>
+      <p style="margin: 0 0 18px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #7D6E42">Two hours, side by side</p>
+      <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.65; color: var(--body)">Two sixty-minute massages in the double room, then facials. Popular for birthdays and showers.</p>
+      <p style="margin: 0; font-size: 20px; color: var(--ink)">$330</p>
+    </article>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom: clamp(48px, 6vw, 86px)">
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; margin-bottom: 28px">
+    <h2 class="serif" style="margin: 0; flex: 999 1 300px; font-size: clamp(27px, 3vw, 38px); line-height: 1.14">Inside Front Street</h2>
+    <p style="margin: 0; flex: 1 1 260px; font-size: 16px; line-height: 1.6; color: var(--body)">Two floors, three treatment rooms, and more plants than anybody planned for.</p>
+  </div>
+  <div class="gallery">
+    <div class="frame"><img class="shot" src="img/g-styling.jpg" width="700" height="700" loading="lazy" alt="A stylist finishing a blow-dry in a bright, plant-filled salon."></div>
+    <div class="frame"><img class="shot" src="img/g-stones.jpg" width="700" height="700" loading="lazy" alt="Warm stones resting along a client's back during a treatment."></div>
+    <div class="frame"><img class="shot" src="img/g-plant.jpg" width="700" height="700" loading="lazy" alt="Plants on a concrete ledge beside a round mirror in the salon."></div>
+    <div class="frame"><img class="shot" src="img/g-stoneflower.jpg" width="700" height="700" loading="lazy" alt="A hot stone massage in progress, orchids laid along the table."></div>
+  </div>
+</section>
+
+<section id="gift" style="background: #BFA468">
+  <div class="wrap" style="padding-block: clamp(42px, 5vw, 72px)">
+    <div style="display: flex; flex-wrap: wrap; gap: clamp(26px, 4vw, 60px); align-items: center">
+      <div style="flex: 999 1 380px; min-width: 0">
+        <h2 class="serif" style="margin: 0 0 14px; font-size: clamp(27px, 3.2vw, 40px); line-height: 1.12; color: #22281A">Gift cards, sent in about a minute</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #342F1E; max-width: 32em">Any amount, delivered by email with the date you choose. The most-bought present in Mokena every December, and the only one that comes with a nap.</p>
+      </div>
+      <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-wrap: wrap; gap: 12px">
+        <a href="#book" class="btn" style="padding: 17px 34px; background: var(--ink); color: var(--cream); font-size: 17px">Buy a gift card</a>
+        <a href="#visit" class="btn" style="padding: 16px 32px; border: 1px solid #6E5E33; color: #22281A; font-size: 17px">Ask about parties</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="book" class="wrap" style="padding-block: clamp(48px, 6vw, 88px); text-align: center">
+  <h2 class="serif" style="margin: 0 0 18px; font-size: clamp(32px, 4vw, 50px); line-height: 1.08">Find a time that suits</h2>
+  <p style="margin: 0 auto 32px; font-size: 19px; line-height: 1.6; color: var(--body); max-width: 30em">The calendar is live. Pick the treatment, pick the hour, and we will send a reminder the day before.</p>
+  <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center">
+    <a href="#book" class="btn" style="padding: 18px 42px; background: var(--brass); color: #1E2A22; font-size: 18px; font-weight: 600">Book online</a>
+    <a href="tel:+17085550142" class="btn" style="padding: 17px 40px; border: 1px solid #B4BCAE; color: var(--ink); font-size: 18px">Call (708) 555-0142</a>
+  </div>
+</section>
+
+<footer id="visit" style="background: var(--deep); color: #C8D2C6">
+  <div class="wrap" style="padding-block: clamp(40px, 5vw, 64px); display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 56px); font-size: 16px">
+    <div style="flex: 1 1 240px">
+      <p class="serif" style="margin: 0 0 12px; font-size: 21px; color: #F7F5EC">Front Street Salon &amp; Spa</p>
+      <p style="margin: 0; line-height: 1.7">11024 Front Street<br>Mokena, Illinois 60448</p>
+    </div>
+    <div style="flex: 1 1 200px">
+      <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9DAE9F">Hours</p>
+      <p style="margin: 0; line-height: 1.8">Tuesday to Friday, 9 to 7<br>Saturday, 8 to 4<br>Sunday, 10 to 3<br>Closed Monday</p>
+    </div>
+    <div style="flex: 1 1 200px">
+      <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9DAE9F">Get in touch</p>
+      <p style="margin: 0; line-height: 1.8"><a href="tel:+17085550142" style="color: #D8CFA8">(708) 555-0142</a><br><a href="mailto:hello@example.com" style="color: #D8CFA8">hello@example.com</a></p>
+    </div>
+    <div style="flex: 1 1 200px">
+      <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #9DAE9F">Also</p>
+      <p style="margin: 0; line-height: 1.8">Parties and showers<br>Gift cards<br>Cancellation policy</p>
+    </div>
+  </div>
+  <div style="border-top: 1px solid #3E5245">
+    <div class="wrap" style="padding-block: 22px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; font-size: 15px; color: #9DAE9F">
+      <span>A demonstration site. Front Street Salon &amp; Spa is not a real business.</span>
+      <span>Designed &amp; Built by <a href="https://goodlookingdigital.com" style="color: #D8CFA8">Good Looking Digital</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

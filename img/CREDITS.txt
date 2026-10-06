@@ -1,0 +1,19 @@
+Photography for the Front Street Salon & Spa demo.
+
+All images are from Unsplash under the Unsplash License, which permits
+commercial use without permission or attribution. They are kept here only
+because this is a demonstration of a fictional business.
+
+A real client's site must use photographs of their own salon and their own
+work. Stock imagery of a salon that is not theirs is a promise the business
+cannot keep, and customers notice on arrival.
+
+Source photo ids on images.unsplash.com:
+  hero-room.jpg       photo-1787651343620-8d5303006ecb
+  svc-massage.jpg     photo-1745327883508-b6cd32e5dde5
+  svc-facial.jpg      photo-1570172619644-dfd03ed5d881
+  svc-nails.jpg       photo-1659391542239-9648f307c0b1
+  g-plant.jpg         photo-1600948835780-9c4a8b55cf50
+  g-stones.jpg        photo-1745327883348-8d78cb4661b0
+  g-styling.jpg       photo-1695527081848-1e46c06e6458
+  g-stoneflower.jpg   photo-1600334129128-685c5582fd35
